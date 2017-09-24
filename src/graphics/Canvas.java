@@ -9,6 +9,7 @@ import java.awt.*;
  * Created by caiofilipemr on 23/09/17.
  */
 public class Canvas extends JPanel {
+    public static final int PIXEL_FACTOR = 10;
     private final Polyhedron polyhedron;
 
     public Canvas(Polyhedron polyhedron) {
