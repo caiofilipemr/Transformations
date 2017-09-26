@@ -1,4 +1,4 @@
-package gc;
+package graphics;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,7 +40,7 @@ public class ControlPanel extends JPanel {
         pointListPanel.pointListChanged();
     }
 
-    public Point getInputtedPoint() {
+    public gc.Point getInputtedPoint() {
         return pointPanel.getInputtedPoint();
     }
 
@@ -60,7 +60,7 @@ public class ControlPanel extends JPanel {
         return pointPanel.getZField();
     }
 
-    public void setPointListModel(List<Point> points) {
+    public void setPointListModel(List<gc.Point> points) {
         pointListPanel.setModel(points);
     }
 

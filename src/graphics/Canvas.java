@@ -9,7 +9,6 @@ import java.awt.*;
  * Created by caiofilipemr on 23/09/17.
  */
 public class Canvas extends JPanel {
-    public static final int PIXEL_FACTOR = 10;
     private final Polyhedron polyhedron;
 
     public Canvas(Polyhedron polyhedron) {
@@ -19,8 +18,11 @@ public class Canvas extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
-        g.setColor(Color.red);
+        g.setColor(Color.white);
         g.fillRect(0, 0, getWidth(), getHeight());
+
+        g.setColor(Color.black);
+        PlanPlotter.plotPlan(g);
 
         g.setColor(Color.black);
         polyhedron.draw(g);

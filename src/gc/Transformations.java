@@ -2,6 +2,8 @@ package gc;
 
 import javax.swing.*;
 import graphics.Canvas;
+import graphics.ControlPanel;
+import graphics.PlanPlotter;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -63,7 +65,7 @@ public class Transformations {
     private static class CanvasMouseListener implements MouseListener {
         @Override
         public void mouseClicked(MouseEvent e) {
-            savePointWithClick(e.getX() / (double) Canvas.PIXEL_FACTOR, e.getY() / (double) Canvas.PIXEL_FACTOR);
+            savePointWithClick(e.getX() / (double) PlanPlotter.PIXEL_FACTOR, e.getY() / (double) PlanPlotter.PIXEL_FACTOR);
         }
 
         @Override
@@ -88,8 +90,8 @@ public class Transformations {
 
         @Override
         public void mouseMoved(MouseEvent e) {
-            controlPanel.setMouseX(e.getX() / (double) Canvas.PIXEL_FACTOR);
-            controlPanel.setMouseY(e.getY() / (double) Canvas.PIXEL_FACTOR);
+            controlPanel.setMouseX(e.getX() / (double) PlanPlotter.PIXEL_FACTOR);
+            controlPanel.setMouseY(e.getY() / (double) PlanPlotter.PIXEL_FACTOR);
             controlPanel.setMouseZ(0);
         }
     }

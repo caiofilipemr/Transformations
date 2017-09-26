@@ -1,14 +1,17 @@
-package gc;
+package graphics;
+
+import gc.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Point;
 import java.awt.event.ActionListener;
 import java.util.List;
 
 public class PointListPanel extends JPanel {
     private static final String PANEL_TITLE = "Points";
 
-    private final JList<Point> pointList = new JList<>();
+    private final JList<gc.Point> pointList = new JList<>();
     private final JScrollPane scrollPane = new JScrollPane(pointList);
     private final JButton deleteButton = new JButton();
 
@@ -43,7 +46,7 @@ public class PointListPanel extends JPanel {
         pointListModel.changed();
     }
 
-    public void setModel(List<Point> points) {
+    public void setModel(List<gc.Point> points) {
         pointListModel = new PointListModel(points);
         pointList.setModel(pointListModel);
     }
@@ -52,10 +55,10 @@ public class PointListPanel extends JPanel {
         return pointList.getSelectedIndex();
     }
 
-    private class PointListModel extends AbstractListModel<Point> {
-        private final List<Point> points;
+    private class PointListModel extends AbstractListModel<gc.Point> {
+        private final List<gc.Point> points;
 
-        PointListModel(List<Point> points) {
+        PointListModel(List<gc.Point> points) {
             this.points = points;
         }
 
@@ -65,7 +68,7 @@ public class PointListPanel extends JPanel {
         }
 
         @Override
-        public Point getElementAt(int index) {
+        public gc.Point getElementAt(int index) {
             return points.get(index);
         }
 

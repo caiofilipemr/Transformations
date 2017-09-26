@@ -1,6 +1,7 @@
 package gc;
 
 import graphics.Canvas;
+import graphics.PlanPlotter;
 
 import java.awt.*;
 import java.util.LinkedList;
@@ -39,11 +40,11 @@ public class Polyhedron {
     }
 
     private int calculateX(Point point) {
-        int x = (int) (point.x * Canvas.PIXEL_FACTOR - OVAL_SIZE / 2);
+        int x = (int) (point.x * PlanPlotter.PIXEL_FACTOR - OVAL_SIZE / 2);
         return x;
     }
 
     private int calculateY(Point point) {
-        return (int) (point.y * Canvas.PIXEL_FACTOR - OVAL_SIZE / 2);
+        return (int) (point.y * PlanPlotter.PIXEL_FACTOR - OVAL_SIZE / 2);
     }
 }

@@ -1,7 +1,11 @@
-package gc;
+package graphics;
+
+import gc.*;
+import graphics.NumberField;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Point;
 import java.awt.event.ActionListener;
 
 public class PointPanel extends JPanel {
@@ -55,8 +59,8 @@ public class PointPanel extends JPanel {
         add(saveButton, c);
     }
 
-    public Point getInputtedPoint() {
-        return new Point(Double.valueOf(xField.getText()),
+    public gc.Point getInputtedPoint() {
+        return new gc.Point(Double.valueOf(xField.getText()),
                 Double.valueOf(yField.getText()),
                 Double.valueOf(zField.getText()));
     }
