@@ -17,4 +17,8 @@ public class Point {
     public String toString() {
         return "(" + x + ", " + y + ", " + z + ")";
     }
+    
+    public Point add(Point point) {
+    	return new Point(x + point.x, y + point.y, z + point.z);
+    }
 }
