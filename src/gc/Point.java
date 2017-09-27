@@ -21,4 +21,12 @@ public class Point {
     public Point add(Point point) {
     	return new Point(x + point.x, y + point.y, z + point.z);
     }
+
+    public Point multiply(double multiplier) {
+        return new Point(x * multiplier, y * multiplier, z * multiplier);
+    }
+
+    public Point divide(double divider) {
+        return new Point(x / divider, y / divider, z / divider);
+    }
 }

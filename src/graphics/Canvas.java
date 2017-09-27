@@ -22,9 +22,8 @@ public class Canvas extends JPanel {
         g.fillRect(0, 0, getWidth(), getHeight());
 
         g.setColor(Color.black);
-        PlanPlotter.plotPlan(g);
+        PlanPlotter.plotPlan(g, polyhedron);
 
         g.setColor(Color.black);
-        polyhedron.draw(g);
     }
 }

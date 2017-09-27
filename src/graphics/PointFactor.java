@@ -11,7 +11,7 @@ public class PointFactor {
         this.yFactor = yFactor;
     }
 
-    public Point apllyFactor(int originX, int originY, double xyz, int pixelFactor) {
-        return new Point(pixelFactor * xyz * xFactor + originX, pixelFactor * xyz * yFactor + originY, 0);
+    public Point applyFactor(double xyz) {
+        return new Point(xyz * xFactor, xyz * yFactor, 0);
     }
 }

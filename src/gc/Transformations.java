@@ -4,17 +4,17 @@ import javax.swing.*;
 import graphics.Canvas;
 import graphics.ControlPanel;
 import graphics.PlanPlotter;
+import graphics.PointConverter;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 
 public class Transformations {
     public static final String FRAME_TITLE = "Transformations";
     private static Canvas canvas;
     private static ControlPanel controlPanel;
     private static Polyhedron polyhedron = new Polyhedron();
+    public static double Z_INDEX = 0;
 
     public static void main(String[] args) {
         JFrame frame = new JFrame(FRAME_TITLE);
@@ -24,6 +24,7 @@ public class Transformations {
         canvas = new Canvas(polyhedron);
         canvas.addMouseListener(new CanvasMouseListener());
         canvas.addMouseMotionListener(new CanvasMouseMotionListener());
+        canvas.addMouseWheelListener(e -> alterZIndex(e));
         frame.add(canvas, BorderLayout.CENTER);
 
         controlPanel = new ControlPanel(150, frame.getHeight());
@@ -46,8 +47,8 @@ public class Transformations {
         }
     }
 
-    private static void savePointWithClick(double x, double y) {
-        polyhedron.addPoint(new Point(x, y, 0));
+    private static void savePointWithClick(Point point) {
+        polyhedron.addPoint(point);
         controlPanel.pointListChanged();
         canvas.updateUI();
     }
@@ -62,10 +63,22 @@ public class Transformations {
         }
     }
 
+    private static void refreshCoordinates(MouseEvent e) {
+        Point point = PlanPlotter.convert2dPointTo3d(new Point(e.getX(), e.getY(), Z_INDEX));
+        controlPanel.setMouseX(point.x);
+        controlPanel.setMouseY(point.y);
+        controlPanel.setMouseZ(point.z);
+    }
+
+    private static void alterZIndex(MouseWheelEvent e) {
+        Z_INDEX = Z_INDEX - (5 * e.getWheelRotation());
+        refreshCoordinates(e);
+    }
+
     private static class CanvasMouseListener implements MouseListener {
         @Override
         public void mouseClicked(MouseEvent e) {
-            savePointWithClick(e.getX() / (double) PlanPlotter.PIXEL_FACTOR, e.getY() / (double) PlanPlotter.PIXEL_FACTOR);
+            savePointWithClick(PlanPlotter.convert2dPointTo3d(new Point(e.getX(), e.getY(), Z_INDEX)));
         }
 
         @Override
@@ -90,9 +103,7 @@ public class Transformations {
 
         @Override
         public void mouseMoved(MouseEvent e) {
-            controlPanel.setMouseX(e.getX() / (double) PlanPlotter.PIXEL_FACTOR);
-            controlPanel.setMouseY(e.getY() / (double) PlanPlotter.PIXEL_FACTOR);
-            controlPanel.setMouseZ(0);
+            refreshCoordinates(e);
         }
     }
 }
