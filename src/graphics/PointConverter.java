@@ -17,10 +17,25 @@ public class PointConverter {
     }
 
     public static Point convert2dPointTo3d(Point point, int originX, int originY, int pixelFactor) {
-    	point = new Point(point.x - originX, originY - point.y , point.z);
+    	point = new Point(point.x - originX, point.y - originY, point.z);
     	point = point.divide(pixelFactor);
-		Point newPoint = point.add(xFactor.applyFactor(point.x));
-		newPoint = newPoint.add(yFactor.applyFactor(point.y));
-		return newPoint.add(zFactor.applyFactor(point.z));
+    	//point = point.add(zFactor.applyFactor(point.z));
+    	return solveSystem(point);
+	}
+
+	private static Point solveSystem(Point point) {
+    	double factor = xFactor.xFactor / xFactor.yFactor;
+    	factor = factor * -1;
+		double yy = (point.x + point.y * factor - point.z * zFactor.yFactor * factor) / (yFactor.yFactor * factor);
+		double xx = (point.x - yy * yFactor.xFactor - point.z * zFactor.xFactor) / xFactor.xFactor;
+		return new Point(xx, yy, point.z);
+	}
+
+	private static Point solveSystemBkp(Point point) {
+		double factor = xFactor.xFactor / xFactor.yFactor;
+		factor = factor * -1;
+		double yy = (point.x + point.y * factor) / (yFactor.yFactor * factor);
+		double xx = (point.x - yy * yFactor.xFactor) / xFactor.xFactor;
+		return new Point(xx, yy, point.z);
 	}
 }
