@@ -1,11 +1,8 @@
 package graphics;
 
-import gc.*;
-import graphics.NumberField;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Point;
 import java.awt.event.ActionListener;
 
 public class PointPanel extends JPanel {

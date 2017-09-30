@@ -3,8 +3,8 @@ package gc;
 import javax.swing.*;
 import graphics.Canvas;
 import graphics.ControlPanel;
+import graphics.OperationPanel;
 import graphics.PlanPlotter;
-import graphics.PointConverter;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -13,43 +13,71 @@ public class Transformations {
     public static final String FRAME_TITLE = "Transformations";
     private static Canvas canvas;
     private static ControlPanel controlPanel;
+    private static OperationPanel operationPanel;
     private static Polyhedron polyhedron = new Polyhedron();
     public static double Z_INDEX = 0;
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame(FRAME_TITLE);
-        frame.setSize(1500, 800);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JFrame frame = createFrame();
 
-        canvas = new Canvas(polyhedron);
-        canvas.addMouseListener(new CanvasMouseListener());
-        canvas.addMouseMotionListener(new CanvasMouseMotionListener());
-        canvas.addMouseWheelListener(e -> alterZIndex(e));
-        frame.add(canvas, BorderLayout.CENTER);
-
-        controlPanel = new ControlPanel(150, frame.getHeight());
-        controlPanel.addSavePointListener(e -> savePoint());
-        controlPanel.addDeletePointListener(e -> deletePoint());
-        controlPanel.setPointListModel(polyhedron.points);
-        frame.add(controlPanel, BorderLayout.EAST);
+        addCanvasComponent(frame);
+        addControlPanelComponent(frame);
+        addOperationPanelComponent(frame);
 
         frame.setVisible(true);
     }
 
-    private static void savePoint() {
+    private static JFrame createFrame() {
+        JFrame frame = new JFrame(FRAME_TITLE);
+        frame.setSize(1500, 800);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        return frame;
+    }
+
+    private static void addCanvasComponent(JFrame frame) {
+        canvas = new Canvas(polyhedron);
+        canvas.addMouseListener(new CanvasMouseListener());
+        canvas.addMouseMotionListener(new CanvasMouseMotionListener());
+        canvas.addMouseWheelListener(Transformations::alterZIndex);
+        frame.add(canvas, BorderLayout.CENTER);
+    }
+
+    private static void addControlPanelComponent(JFrame frame) {
+        controlPanel = new ControlPanel(150, frame.getHeight());
+        controlPanel.addSavePointListener(e -> savePointControlPanel());
+        controlPanel.addDeletePointListener(e -> deletePoint());
+        controlPanel.setPointListModel(polyhedron.points);
+        frame.add(controlPanel, BorderLayout.EAST);
+    }
+
+    private static void addOperationPanelComponent(JFrame frame) {
+        operationPanel = new OperationPanel(frame.getWidth(), 150);
+        frame.add(operationPanel, BorderLayout.SOUTH);
+    }
+
+    private static void savePointControlPanel() {
         try {
-            polyhedron.addPoint(controlPanel.getInputtedPoint());
+            savePoint(controlPanel.getInputtedPoint());
             controlPanel.clearPointFields();
-            controlPanel.pointListChanged();
-            canvas.updateUI();
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Entrada inválida!");
+            JOptionPane.showMessageDialog(null, "Incorrect format of point!");
         }
     }
 
-    private static void savePointWithClick(Point point) {
+    private static void savePoint(Point point) {
         polyhedron.addPoint(point);
         controlPanel.pointListChanged();
+        PlanPlotter.setSelectedPoint(null);
+        canvas.updateUI();
+    }
+
+    private static void setSelectedPoint(Point selectedPoint) {
+        if (PlanPlotter.getSelectedPoint() != null) {
+            polyhedron.addEdge(PlanPlotter.getSelectedPoint(), selectedPoint);
+            PlanPlotter.setSelectedPoint(null);
+        } else {
+            PlanPlotter.setSelectedPoint(selectedPoint);
+        }
         canvas.updateUI();
     }
 
@@ -78,7 +106,14 @@ public class Transformations {
     private static class CanvasMouseListener implements MouseListener {
         @Override
         public void mouseClicked(MouseEvent e) {
-            savePointWithClick(PlanPlotter.convert2dPointTo3d(new Point(e.getX(), e.getY(), Z_INDEX)));
+            Point clickedPoint = new Point(e.getX(), e.getY(), 0);
+            clickedPoint = PlanPlotter.getClickCollisionIfAny(clickedPoint, polyhedron.getPoints());
+
+            if (clickedPoint == null) {
+                savePoint(PlanPlotter.convert2dPointTo3d(new Point(e.getX(), e.getY(), Z_INDEX)));
+            } else {
+                setSelectedPoint(clickedPoint);
+            }
         }
 
         @Override

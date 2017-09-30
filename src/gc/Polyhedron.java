@@ -1,7 +1,6 @@
 package gc;
 
-import graphics.PlanPlotter;
-
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,20 +13,36 @@ public class Polyhedron {
         points.add(point);
     }
 
+    public void addEdge(Point source, Point destination) {
+        edges.add(new Edge(source, destination));
+    }
+
     public boolean deletePoint(int selectedPointIndex) {
         if (selectedPointIndex >= 0 && selectedPointIndex < points.size()) {
-            points.remove(selectedPointIndex);
+            Point deletedPoint = points.remove(selectedPointIndex);
+            deletePointEdgesIfAny(deletedPoint);
             return true;
         } else {
             return false;
         }
     }
 
-    public void generate() {
-
+    private void deletePointEdgesIfAny(Point deletedPoint) {
+        Edge edge;
+        Iterator<Edge> it = edges.iterator();
+        while (it.hasNext()) {
+            edge = it.next();
+            if (edge.getPointA().equals(deletedPoint) || edge.getPointB().equals(deletedPoint)) {
+                it.remove();
+            }
+        }
     }
 
     public List<Point> getPoints() {
         return points;
+    }
+
+    public List<Edge> getEdges() {
+        return edges;
     }
 }
