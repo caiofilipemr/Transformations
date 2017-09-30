@@ -7,8 +7,8 @@ import java.util.List;
 
 
 public class Polyhedron {
-    List<Point> points = new LinkedList<Point>();
-    List<Edge> edges = new LinkedList<Edge>();
+    List<Point> points = new LinkedList<>();
+    List<Edge> edges = new LinkedList<>();
 
     public void addPoint(Point point) {
         points.add(point);

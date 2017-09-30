@@ -26,7 +26,8 @@ public class PointConverter {
 	private static Point solveSystem(Point point) {
     	double factor = xFactor.xFactor / xFactor.yFactor;
     	factor = factor * -1;
-		double yy = (point.x + point.y * factor - point.z * zFactor.yFactor * factor) / (yFactor.yFactor * factor);
+		double yy = (point.x + point.y * factor - point.z * (zFactor.xFactor + zFactor.yFactor * factor));
+		yy = yy / (yFactor.xFactor + yFactor.yFactor * factor);
 		double xx = (point.x - yy * yFactor.xFactor - point.z * zFactor.xFactor) / xFactor.xFactor;
 		return new Point(xx, yy, point.z);
 	}
