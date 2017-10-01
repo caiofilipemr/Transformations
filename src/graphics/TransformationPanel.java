@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class TransformationPanel extends JPanel {
-    public static final String PANEL_TITLE = "Transformations";
+    private static final String PANEL_TITLE = "Transformations";
     private static final String DO_IT_BUTTON_TEXT = "Do it!";
 
     private final JComboBox<TransformationOperation> comboBoxOperations = new JComboBox<>();
@@ -19,11 +19,17 @@ public class TransformationPanel extends JPanel {
     private final NumberField numberField2 = new NumberField();
     private final JLabel label3 = new JLabel();
     private final NumberField numberField3 = new NumberField();
+    private final JLabel label4 = new JLabel();
+    private final NumberField numberField4 = new NumberField();
+    private final JLabel label5 = new JLabel();
+    private final NumberField numberField5 = new NumberField();
+    private final JLabel label6 = new JLabel();
+    private final NumberField numberField6 = new NumberField();
     private final JButton doItButton = new JButton();
 
     public TransformationPanel() {
         super();
-        GridLayout gridLayout = new GridLayout(3, 1, 10, 10);
+        GridLayout gridLayout = new GridLayout(4, 1, 10, 10);
         setLayout(gridLayout);
         setBorder(BorderFactory.createTitledBorder(PANEL_TITLE));
 
@@ -33,13 +39,14 @@ public class TransformationPanel extends JPanel {
     private void createComponents() {
         fillComboBoxOperations();
 
-        add(comboBoxOperations, BorderLayout.PAGE_START);
+        add(comboBoxOperations);
         comboBoxOperations.addItemListener(e -> comboBoxChanged());
 
-        add(addFields(), BorderLayout.CENTER);
+        add(addBasicFields());
+        add(addExtraFields());
 
         doItButton.setText(DO_IT_BUTTON_TEXT);
-        add(doItButton, BorderLayout.PAGE_END);
+        add(doItButton);
 
         comboBoxChanged();
     }
@@ -55,7 +62,7 @@ public class TransformationPanel extends JPanel {
         controlFieldsVisibility();
     }
 
-    private Component addFields() {
+    private Component addBasicFields() {
         GridLayout gridLayout = new GridLayout(1, 6, 10, 10);
         JPanel jPanel = new JPanel(gridLayout);
         jPanel.add(label1);
@@ -64,6 +71,18 @@ public class TransformationPanel extends JPanel {
         jPanel.add(numberField2);
         jPanel.add(label3);
         jPanel.add(numberField3);
+        return jPanel;
+    }
+
+    private Component addExtraFields() {
+        GridLayout gridLayout = new GridLayout(1, 6, 10, 10);
+        JPanel jPanel = new JPanel(gridLayout);
+        jPanel.add(label4);
+        jPanel.add(numberField4);
+        jPanel.add(label5);
+        jPanel.add(numberField5);
+        jPanel.add(label6);
+        jPanel.add(numberField6);
         return jPanel;
     }
 
@@ -91,21 +110,34 @@ public class TransformationPanel extends JPanel {
     }
 
     private void setLabelTextForRotation() {
-        label1.setText("");
-        label2.setText("Grau: ");
-        label3.setText("");
+        label1.setText("X°: ");
+        label2.setText("Y°: ");
+        label3.setText("Z°: ");
     }
 
     private void setLabelTextForScale() {
-        //TODO: implementar
+        label1.setText("Sx: ");
+        label2.setText("Sy: ");
+        label3.setText("Sz: ");
     }
 
     private void setLabelTextForShear() {
-        //TODO: implementar
+        label1.setText("XY: ");
+        label2.setText("XZ: ");
+        label3.setText("YX: ");
+        label4.setText("YZ: ");
+        label5.setText("ZX: ");
+        label6.setText("ZY: ");
     }
 
     private void controlFieldsVisibility() {
-        //TODO: implementar
+        boolean showExtraFields = comboBoxOperations.getSelectedItem().equals(TransformationOperation.SHEAR);
+        label4.setVisible(showExtraFields);
+        label5.setVisible(showExtraFields);
+        label6.setVisible(showExtraFields);
+        numberField4.setVisible(showExtraFields);
+        numberField5.setVisible(showExtraFields);
+        numberField6.setVisible(showExtraFields);
     }
 
     public void setDoItListener(ActionListener doItListener) {
@@ -114,6 +146,13 @@ public class TransformationPanel extends JPanel {
 
     public Transformation getTransformation() {
         return TransformationFactory.getTransformation((TransformationOperation) comboBoxOperations.getSelectedItem(),
-                numberField1.getDoubleValue(), numberField2.getDoubleValue(), numberField3.getDoubleValue());
+                numberField1.getDoubleValueOr(0), numberField2.getDoubleValueOr(0), numberField3.getDoubleValueOr(0),
+                numberField4.getDoubleValueOr(0), numberField5.getDoubleValueOr(0), numberField6.getDoubleValueOr(0));
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        doItButton.setEnabled(enabled);
     }
 }

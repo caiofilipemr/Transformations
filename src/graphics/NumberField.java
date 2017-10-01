@@ -12,4 +12,8 @@ public class NumberField extends JTextField {
     public double getDoubleValue() {
         return Double.valueOf(getText());
     }
+
+    public double getDoubleValueOr(double def) {
+        return getText() == null || getText().isEmpty() ? def : getDoubleValue();
+    }
 }

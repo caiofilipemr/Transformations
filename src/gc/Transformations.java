@@ -8,14 +8,17 @@ import graphics.PlanPlotter;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Transformations {
-    public static final String FRAME_TITLE = "Transformations";
+    private static final String FRAME_TITLE = "Transformations";
     private static Canvas canvas;
     private static ControlPanel controlPanel;
     private static OperationPanel operationPanel;
-    private static Polyhedron polyhedron = new Polyhedron();
-    public static double Z_INDEX = 0;
+    private static double Z_INDEX = 0;
+    private static boolean enabled = true;
+    private static Timer timer = null;
 
     public static void main(String[] args) {
         JFrame frame = createFrame();
@@ -35,7 +38,7 @@ public class Transformations {
     }
 
     private static void addCanvasComponent(JFrame frame) {
-        canvas = new Canvas(polyhedron);
+        canvas = new Canvas(new Polyhedron());
         canvas.addMouseListener(new CanvasMouseListener());
         canvas.addMouseMotionListener(new CanvasMouseMotionListener());
         canvas.addMouseWheelListener(Transformations::alterZIndex);
@@ -46,13 +49,14 @@ public class Transformations {
         controlPanel = new ControlPanel(150, frame.getHeight());
         controlPanel.addSavePointListener(e -> savePointControlPanel());
         controlPanel.addDeletePointListener(e -> deletePoint());
-        controlPanel.setPointListModel(polyhedron.points);
+        controlPanel.setPointListModel(canvas.getPolyhedron().points);
         frame.add(controlPanel, BorderLayout.EAST);
     }
 
     private static void addOperationPanelComponent(JFrame frame) {
         operationPanel = new OperationPanel(frame.getWidth(), 150);
         operationPanel.setDoTransformationListener(e -> doTransformation());
+        operationPanel.setDoExampleListener(e -> doExample());
         frame.add(operationPanel, BorderLayout.SOUTH);
     }
 
@@ -66,15 +70,15 @@ public class Transformations {
     }
 
     private static void savePoint(Point point) {
-        polyhedron.addPoint(point);
-        controlPanel.pointListChanged();
+        canvas.getPolyhedron().addPoint(point);
+        controlPanel.pointListChanged(canvas.getPolyhedron().points);
         PlanPlotter.setSelectedPoint(null);
         canvas.updateUI();
     }
 
     private static void setSelectedPoint(Point selectedPoint) {
         if (PlanPlotter.getSelectedPoint() != null) {
-            polyhedron.addEdge(PlanPlotter.getSelectedPoint(), selectedPoint);
+            canvas.getPolyhedron().addEdge(PlanPlotter.getSelectedPoint(), selectedPoint);
             PlanPlotter.setSelectedPoint(null);
         } else {
             PlanPlotter.setSelectedPoint(selectedPoint);
@@ -85,8 +89,8 @@ public class Transformations {
     private static void deletePoint() {
         int selectedPointIndex = controlPanel.getSelectedPointIndex();
         if (selectedPointIndex != -1) {
-            if (polyhedron.deletePoint(selectedPointIndex)) {
-                controlPanel.pointListChanged();
+            if (canvas.getPolyhedron().deletePoint(selectedPointIndex)) {
+                controlPanel.pointListChanged(canvas.getPolyhedron().points);
                 canvas.updateUI();
             }
         }
@@ -105,14 +109,53 @@ public class Transformations {
     }
 
     private static void doTransformation() {
-        canvas.setModifiedPolyhedron(operationPanel.getTransformation().transform(polyhedron));
+        canvas.setModifiedPolyhedron(operationPanel.getTransformation().transform(canvas.getPolyhedron()));
+        beginTransition();
+    }
+
+    private static void beginTransition() {
+        setEnabled(false);
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                doTransition();
+            }
+        }, 0, 10);
+    }
+
+    private static void doTransition() {
+        canvas.doTransition();
+        canvas.updateUI();
+        if (!canvas.inTransition())
+            endTransition();
+    }
+
+    private static void endTransition() {
+        timer.cancel();
+        timer = null;
+        setEnabled(true);
+    }
+
+    private static void doExample() {
+        canvas.setPolyhedron(operationPanel.getExamplePolyhedron());
+        controlPanel.pointListChanged(canvas.getPolyhedron().points);
+        canvas.updateUI();
+    }
+
+    public static void setEnabled(boolean enabled) {
+        Transformations.enabled = enabled;
+        controlPanel.setEnabled(enabled);
+        operationPanel.setEnabled(enabled);
     }
 
     private static class CanvasMouseListener implements MouseListener {
         @Override
         public void mouseClicked(MouseEvent e) {
+            if (!enabled) return;
+
             Point clickedPoint = new Point(e.getX(), e.getY(), 0);
-            clickedPoint = PlanPlotter.getClickCollisionIfAny(clickedPoint, polyhedron.getPoints());
+            clickedPoint = PlanPlotter.getClickCollisionIfAny(clickedPoint, canvas.getPolyhedron().getPoints());
 
             if (clickedPoint == null) {
                 savePoint(PlanPlotter.convert2dPointTo3d(new Point(e.getX(), e.getY(), Z_INDEX)));

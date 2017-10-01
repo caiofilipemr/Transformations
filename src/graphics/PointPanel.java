@@ -3,6 +3,7 @@ package graphics;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PointPanel extends JPanel {
@@ -53,7 +54,12 @@ public class PointPanel extends JPanel {
         c.insets = new Insets(10, 10, 10, 10);
 
         saveButton.setText("Save");
+        saveButton.addActionListener(e -> setXFieldFocus());
         add(saveButton, c);
+    }
+
+    private void setXFieldFocus() {
+        xField.requestFocus();
     }
 
     public gc.Point getInputtedPoint() {
@@ -82,5 +88,11 @@ public class PointPanel extends JPanel {
 
     public NumberField getZField() {
         return zField;
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        saveButton.setEnabled(enabled);
     }
 }

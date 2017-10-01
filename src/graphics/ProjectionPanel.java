@@ -15,4 +15,9 @@ public class ProjectionPanel extends JPanel {
     private void createComponents() {
 
     }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+    }
 }

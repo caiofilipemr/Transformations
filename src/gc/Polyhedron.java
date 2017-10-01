@@ -38,6 +38,18 @@ public class Polyhedron {
         }
     }
 
+    public Polyhedron clone() {
+        Polyhedron newPolyhedron = new Polyhedron();
+        for (Point point : points) {
+            newPolyhedron.addPoint(point.clone());
+        }
+        for (Edge edge : edges) {
+            newPolyhedron.addEdge(newPolyhedron.points.get(newPolyhedron.points.indexOf(edge.getPointA())),
+                    newPolyhedron.points.get(newPolyhedron.points.indexOf(edge.getPointB())));
+        }
+        return newPolyhedron;
+    }
+
     public List<Point> getPoints() {
         return points;
     }

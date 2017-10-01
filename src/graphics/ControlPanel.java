@@ -36,8 +36,8 @@ public class ControlPanel extends JPanel {
         pointPanel.clearPointFields();
     }
 
-    public void pointListChanged() {
-        pointListPanel.pointListChanged();
+    public void pointListChanged(List<gc.Point> points) {
+        pointListPanel.pointListChanged(points);
     }
 
     public gc.Point getInputtedPoint() {
@@ -74,5 +74,12 @@ public class ControlPanel extends JPanel {
 
     public void setMouseZ(double z) {
         mouseCoordinatePanel.setZLabel(String.valueOf(z));
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        pointPanel.setEnabled(enabled);
+        pointListPanel.setEnabled(enabled);
     }
 }

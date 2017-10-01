@@ -9,20 +9,23 @@ import java.util.List;
 import java.awt.*;
 
 public class PlanPlotter {
-    public static int PIXEL_FACTOR = 10;
-    public static final int ORIGIN_X = 400;
-    public static final int ORIGIN_Y = 400;
-    public static final int POINT_SIZE = 11;
+    private static int PIXEL_FACTOR = 10;
+    private static final int ORIGIN_X = 400;
+    private static final int ORIGIN_Y = 400;
+    private static final int POINT_SIZE = 11;
     private static Point selectedPoint = null;
 
-    public static void plotPlan(Graphics g, Polyhedron polyhedron, Polyhedron modifiedPolyhedron) {
+    static void plotPlan(Graphics g, Polyhedron polyhedron, Polyhedron transitionPolyhedron, Polyhedron modifiedPolyhedron) {
         drawAxis(g, Color.red, new Point(30, 0, 0));
         drawAxis(g, Color.green, new Point(0, 30, 0));
         drawAxis(g, Color.blue, new Point(0, 0, 30));
 
         drawPolyhedron(g, polyhedron);
-        if (modifiedPolyhedron != null)
-            drawPolyhedron(g, modifiedPolyhedron);
+        if (transitionPolyhedron != null) {
+            drawPolyhedron(g, transitionPolyhedron, Color.RED, Color.red);
+        } else if (modifiedPolyhedron != null) {
+            drawPolyhedron(g, modifiedPolyhedron, Color.RED, Color.red);
+        }
 
         drawSelectedPointIfAny(g);
     }
@@ -33,14 +36,18 @@ public class PlanPlotter {
         g.drawLine(ORIGIN_X, ORIGIN_Y, (int) endPoint2d.x, (int) endPoint2d.y);
     }
 
-    public static void drawPolyhedron(Graphics g, Polyhedron polyhedron) {
-        g.setColor(Color.DARK_GRAY);
+    private static void drawPolyhedron(Graphics g, Polyhedron polyhedron) {
+        drawPolyhedron(g, polyhedron, Color.DARK_GRAY, Color.black);
+    }
+
+    private static void drawPolyhedron(Graphics g, Polyhedron polyhedron, Color pointColor, Color edgeColor) {
+        g.setColor(pointColor);
         for (Point point : polyhedron.getPoints()) {
             point = convert3dPointTo2d(point);
             drawPoint(g, point);
         }
 
-        g.setColor(Color.black);
+        g.setColor(edgeColor);
         for (Edge edge : polyhedron.getEdges()) {
             drawLine(g, convert3dPointTo2d(edge.getPointA()), convert3dPointTo2d(edge.getPointB()));
         }
@@ -70,7 +77,7 @@ public class PlanPlotter {
         return PointConverter.convert2dPointTo3d(point, ORIGIN_X, ORIGIN_Y, PIXEL_FACTOR);
     }
 
-    public static Point convert3dPointTo2d(Point point) {
+    private static Point convert3dPointTo2d(Point point) {
         return PointConverter.convert3dPointTo2d(point, ORIGIN_X, ORIGIN_Y, PIXEL_FACTOR);
     }
 

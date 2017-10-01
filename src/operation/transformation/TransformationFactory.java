@@ -1,19 +1,17 @@
 package operation.transformation;
 
-/**
- * Created by caiofilipemr on 30/09/17.
- */
 public class TransformationFactory {
-    public static Transformation getTransformation(TransformationOperation operation, double x, double y, double z) {
+    public static Transformation getTransformation(TransformationOperation operation, double a, double b, double c,
+                                                   double d, double e, double f) {
         switch (operation) {
             case TRANSLATION:
-                return new TranslationTransformation(x, y, z);
+                return new TranslationTransformation(a, b, c);
             case ROTATION:
-                break;
+                return new RotationTransformation(a, b, c);
             case SCALE:
-                break;
+                return new ScaleTransformation(a, b, c);
             case SHEAR:
-                break;
+                return new ShearTransformation(a, b, c, d, e, f);
         }
         return null;
     }

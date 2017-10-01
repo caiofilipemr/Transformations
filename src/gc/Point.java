@@ -17,6 +17,12 @@ public class Point {
     public String toString() {
         return "(" + x + ", " + y + ", " + z + ")";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        Point point = (Point) o;
+        return x == point.x && y == point.y && z == point.z;
+    }
     
     public Point add(Point point) {
     	return new Point(x + point.x, y + point.y, z + point.z);
@@ -35,6 +41,20 @@ public class Point {
     }
 
     public static Point fromColumnArray(double[][] point) {
-        return new Point(point[0][0], point[0][1], point[0][2]);
+        return new Point(point[0][0], point[1][0], point[2][0]);
+    }
+
+    public Point clone() {
+        return new Point(x, y, z);
+    }
+
+    public void copy(Point transformedPoint) {
+        x = transformedPoint.x;
+        y = transformedPoint.y;
+        z = transformedPoint.z;
+    }
+
+    public double originDistance() {
+        return Math.abs(x) + Math.abs(y) + Math.abs(z);
     }
 }

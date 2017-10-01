@@ -1,5 +1,7 @@
 package graphics;
 
+import gc.Point;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -39,17 +41,24 @@ public class PointListPanel extends JPanel {
         scrollPane.setPreferredSize(new Dimension(dimension.width - 20, dimension.height - 65));
     }
 
-    public void pointListChanged() {
+    public void pointListChanged(List<Point> points) {
+        setModel(points);
         pointListModel.changed();
     }
 
-    public void setModel(List<gc.Point> points) {
+    public void setModel(List<Point> points) {
         pointListModel = new PointListModel(points);
         pointList.setModel(pointListModel);
     }
 
     public int getSelectedPointIndex() {
         return pointList.getSelectedIndex();
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        deleteButton.setEnabled(enabled);
     }
 
     private class PointListModel extends AbstractListModel<gc.Point> {

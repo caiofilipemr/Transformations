@@ -1,8 +1,6 @@
 package operation.transformation;
 
-import gc.Point;
 import gc.Polyhedron;
-import math.MatrixOperation;
 
 public class TranslationTransformation implements Transformation {
     private final double x;
@@ -14,15 +12,17 @@ public class TranslationTransformation implements Transformation {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.matrix = new double[][]{{1, 0, 0, x}, {0, 1, 0, y}, {0, 0, 1, z}, {0, 0, 0, 1}};
+        this.matrix = getTranslationMatrix(x, y, z);
     }
 
     @Override
     public Polyhedron transform(Polyhedron polyhedron) {
-        Polyhedron newPolyhedron = new Polyhedron();
-        for (Point point : polyhedron.getPoints()) {
-            newPolyhedron.addPoint(Point.fromColumnArray(MatrixOperation.multiply(matrix, point.toColumnArray())));
-        }
+        Polyhedron newPolyhedron = polyhedron.clone();
+        Transformation.multiplyPoints(newPolyhedron.getPoints(), matrix);
         return newPolyhedron;
+    }
+
+    public static double[][] getTranslationMatrix(double x, double y, double z) {
+        return new double[][]{{1, 0, 0, x}, {0, 1, 0, y}, {0, 0, 1, z}, {0, 0, 0, 1}};
     }
 }
