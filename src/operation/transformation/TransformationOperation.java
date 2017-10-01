@@ -1,4 +1,4 @@
-package gc;
+package operation.transformation;
 
 public enum TransformationOperation {
     TRANSLATION("Translation"),

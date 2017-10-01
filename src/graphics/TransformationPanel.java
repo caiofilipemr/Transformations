@@ -1,9 +1,12 @@
 package graphics;
 
-import gc.TransformationOperation;
+import operation.transformation.Transformation;
+import operation.transformation.TransformationFactory;
+import operation.transformation.TransformationOperation;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class TransformationPanel extends JPanel {
     public static final String PANEL_TITLE = "Transformations";
@@ -103,5 +106,14 @@ public class TransformationPanel extends JPanel {
 
     private void controlFieldsVisibility() {
         //TODO: implementar
+    }
+
+    public void setDoItListener(ActionListener doItListener) {
+        doItButton.addActionListener(doItListener);
+    }
+
+    public Transformation getTransformation() {
+        return TransformationFactory.getTransformation((TransformationOperation) comboBoxOperations.getSelectedItem(),
+                numberField1.getDoubleValue(), numberField2.getDoubleValue(), numberField3.getDoubleValue());
     }
 }

@@ -5,11 +5,9 @@ import gc.Polyhedron;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Created by caiofilipemr on 23/09/17.
- */
 public class Canvas extends JPanel {
     private final Polyhedron polyhedron;
+    private Polyhedron modifiedPolyhedron = null;
 
     public Canvas(Polyhedron polyhedron) {
         super();
@@ -22,8 +20,16 @@ public class Canvas extends JPanel {
         g.fillRect(0, 0, getWidth(), getHeight());
 
         g.setColor(Color.black);
-        PlanPlotter.plotPlan(g, polyhedron);
+        PlanPlotter.plotPlan(g, polyhedron, modifiedPolyhedron);
 
         g.setColor(Color.black);
+    }
+
+    public Polyhedron getModifiedPolyhedron() {
+        return modifiedPolyhedron;
+    }
+
+    public void setModifiedPolyhedron(Polyhedron modifiedPolyhedron) {
+        this.modifiedPolyhedron = modifiedPolyhedron;
     }
 }

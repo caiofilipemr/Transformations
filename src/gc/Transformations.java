@@ -52,6 +52,7 @@ public class Transformations {
 
     private static void addOperationPanelComponent(JFrame frame) {
         operationPanel = new OperationPanel(frame.getWidth(), 150);
+        operationPanel.setDoTransformationListener(e -> doTransformation());
         frame.add(operationPanel, BorderLayout.SOUTH);
     }
 
@@ -101,6 +102,10 @@ public class Transformations {
     private static void alterZIndex(MouseWheelEvent e) {
         Z_INDEX = Z_INDEX - (5 * e.getWheelRotation());
         refreshCoordinates(e);
+    }
+
+    private static void doTransformation() {
+        canvas.setModifiedPolyhedron(operationPanel.getTransformation().transform(polyhedron));
     }
 
     private static class CanvasMouseListener implements MouseListener {

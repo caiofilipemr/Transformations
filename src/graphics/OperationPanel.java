@@ -1,11 +1,15 @@
 package graphics;
 
+import operation.transformation.Transformation;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class OperationPanel extends JPanel {
     private final TransformationPanel transformationPanel = new TransformationPanel();
     private final ProjectionPanel projectionPanel = new ProjectionPanel();
+    private Object transformation;
 
     public OperationPanel(int width, int height) {
         setPreferredSize(new Dimension(width, height));
@@ -17,5 +21,13 @@ public class OperationPanel extends JPanel {
     private void createComponents() {
         add(transformationPanel);
         add(projectionPanel);
+    }
+
+    public void setDoTransformationListener(ActionListener doTransformationListener) {
+        this.transformationPanel.setDoItListener(doTransformationListener);
+    }
+
+    public Transformation getTransformation() {
+        return transformationPanel.getTransformation();
     }
 }

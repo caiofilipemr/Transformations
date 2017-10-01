@@ -57,9 +57,9 @@ public class PointPanel extends JPanel {
     }
 
     public gc.Point getInputtedPoint() {
-        return new gc.Point(Double.valueOf(xField.getText()),
-                Double.valueOf(yField.getText()),
-                Double.valueOf(zField.getText()));
+        return new gc.Point(xField.getDoubleValue(),
+                yField.getDoubleValue(),
+                zField.getDoubleValue());
     }
 
     public void clearPointFields() {

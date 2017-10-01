@@ -29,4 +29,12 @@ public class Point {
     public Point divide(double divider) {
         return new Point(x / divider, y / divider, z / divider);
     }
+
+    public double[][] toColumnArray() {
+        return new double[][] {{x}, {y}, {z}, {1}};
+    }
+
+    public static Point fromColumnArray(double[][] point) {
+        return new Point(point[0][0], point[0][1], point[0][2]);
+    }
 }

@@ -12,14 +12,18 @@ public class PlanPlotter {
     public static int PIXEL_FACTOR = 10;
     public static final int ORIGIN_X = 400;
     public static final int ORIGIN_Y = 400;
-    public static final int POINT_SIZE = 7;
+    public static final int POINT_SIZE = 11;
     private static Point selectedPoint = null;
 
-    public static void plotPlan(Graphics g, Polyhedron polyhedron) {
+    public static void plotPlan(Graphics g, Polyhedron polyhedron, Polyhedron modifiedPolyhedron) {
         drawAxis(g, Color.red, new Point(30, 0, 0));
         drawAxis(g, Color.green, new Point(0, 30, 0));
         drawAxis(g, Color.blue, new Point(0, 0, 30));
+
         drawPolyhedron(g, polyhedron);
+        if (modifiedPolyhedron != null)
+            drawPolyhedron(g, modifiedPolyhedron);
+
         drawSelectedPointIfAny(g);
     }
 

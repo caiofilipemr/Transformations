@@ -8,4 +8,8 @@ public class NumberField extends JTextField {
         super();
         setMaximumSize(new Dimension(getMaximumSize().getSize().width, 25));
     }
+
+    public double getDoubleValue() {
+        return Double.valueOf(getText());
+    }
 }
