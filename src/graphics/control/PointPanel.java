@@ -1,5 +1,7 @@
-package graphics;
+package graphics.control;
 
+
+import graphics.NumberField;
 
 import javax.swing.*;
 import java.awt.*;

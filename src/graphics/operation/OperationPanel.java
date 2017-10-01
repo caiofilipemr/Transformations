@@ -1,4 +1,4 @@
-package graphics;
+package graphics.operation;
 
 import gc.Polyhedron;
 import operation.transformation.Transformation;
@@ -8,15 +8,17 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class OperationPanel extends JPanel {
+    public static final int CHILDREN_WIDTH = 250;
+    public static final int CHILDREN_HEIGHT_PAD = 10;
     private final TransformationPanel transformationPanel = new TransformationPanel();
     private final ProjectionPanel projectionPanel = new ProjectionPanel();
     private final ExamplePanel examplePanel = new ExamplePanel();
 
     public OperationPanel(int width, int height) {
         setPreferredSize(new Dimension(width, height));
-        transformationPanel.setPreferredSize(new Dimension(400, getPreferredSize().height - 10));
-        projectionPanel.setPreferredSize(new Dimension(400, getPreferredSize().height - 10));
-        examplePanel.setPreferredSize(new Dimension(400, getPreferredSize().height - 10));
+        transformationPanel.setPreferredSize(new Dimension(CHILDREN_WIDTH, getPreferredSize().height - CHILDREN_HEIGHT_PAD));
+        projectionPanel.setPreferredSize(new Dimension(CHILDREN_WIDTH, getPreferredSize().height - CHILDREN_HEIGHT_PAD));
+        examplePanel.setPreferredSize(new Dimension(CHILDREN_WIDTH, getPreferredSize().height - CHILDREN_HEIGHT_PAD));
         createComponents();
     }
 

@@ -1,10 +1,10 @@
 package gc;
 
 import javax.swing.*;
-import graphics.Canvas;
-import graphics.ControlPanel;
-import graphics.OperationPanel;
-import graphics.PlanPlotter;
+import graphics.canvas.Canvas;
+import graphics.control.ControlPanel;
+import graphics.operation.OperationPanel;
+import graphics.canvas.PlanPlotter;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -115,13 +115,14 @@ public class Transformations {
 
     private static void beginTransition() {
         setEnabled(false);
+        canvas.setTransition(controlPanel.getSelectedTransition());
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 doTransition();
             }
-        }, 0, 10);
+        }, 0, controlPanel.getTransitionDelay());
     }
 
     private static void doTransition() {

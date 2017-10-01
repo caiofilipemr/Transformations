@@ -1,4 +1,4 @@
-package graphics;
+package graphics.canvas;
 
 import gc.Edge;
 import gc.Point;

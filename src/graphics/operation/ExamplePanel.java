@@ -1,10 +1,11 @@
-package graphics;
+package graphics.operation;
 
 
 import gc.Polyhedron;
 import gc.PolyhedronFactory;
 import gc.PolyhedronType;
 import gc.Point;
+import graphics.NumberField;
 
 import javax.swing.*;
 import java.awt.*;

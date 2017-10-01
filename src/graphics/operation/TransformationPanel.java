@@ -1,5 +1,6 @@
-package graphics;
+package graphics.operation;
 
+import graphics.NumberField;
 import operation.transformation.Transformation;
 import operation.transformation.TransformationFactory;
 import operation.transformation.TransformationOperation;
