@@ -56,6 +56,7 @@ public class Transformations {
     private static void addOperationPanelComponent(JFrame frame) {
         operationPanel = new OperationPanel(frame.getWidth(), 150);
         operationPanel.setDoTransformationListener(e -> doTransformation());
+        operationPanel.setDoProjectionListener(e -> doProjection());
         operationPanel.setDoExampleListener(e -> doExample());
         frame.add(operationPanel, BorderLayout.SOUTH);
     }
@@ -110,6 +111,11 @@ public class Transformations {
 
     private static void doTransformation() {
         canvas.setModifiedPolyhedron(operationPanel.getTransformation().transform(canvas.getPolyhedron()));
+        beginTransition();
+    }
+
+    private static void doProjection() {
+        canvas.setModifiedPolyhedron(operationPanel.getSelectedProjection().project(canvas.getPolyhedron()));
         beginTransition();
     }
 

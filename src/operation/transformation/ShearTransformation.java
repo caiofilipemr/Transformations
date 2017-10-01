@@ -1,6 +1,7 @@
 package operation.transformation;
 
 import gc.Polyhedron;
+import math.MatrixOperation;
 
 public class ShearTransformation implements Transformation {
     private final double xy;
@@ -22,7 +23,7 @@ public class ShearTransformation implements Transformation {
     @Override
     public Polyhedron transform(Polyhedron polyhedron) {
         Polyhedron newPolyhedron = polyhedron.clone();
-        Transformation.multiplyPoints(newPolyhedron.getPoints(), getScaleMatrix());
+        MatrixOperation.multiplyColumnPoints(newPolyhedron.getPoints(), getScaleMatrix());
         return newPolyhedron;
     }
 

@@ -1,24 +1,19 @@
 package operation.transformation;
 
 import gc.Polyhedron;
+import math.MatrixOperation;
 
 public class TranslationTransformation implements Transformation {
-    private final double x;
-    private final double y;
-    private final double z;
     private final double[][] matrix;
 
     public TranslationTransformation(double x, double y, double z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
         this.matrix = getTranslationMatrix(x, y, z);
     }
 
     @Override
     public Polyhedron transform(Polyhedron polyhedron) {
         Polyhedron newPolyhedron = polyhedron.clone();
-        Transformation.multiplyPoints(newPolyhedron.getPoints(), matrix);
+        MatrixOperation.multiplyColumnPoints(newPolyhedron.getPoints(), matrix);
         return newPolyhedron;
     }
 

@@ -1,6 +1,7 @@
 package graphics.operation;
 
 import gc.Polyhedron;
+import operation.projection.Projection;
 import operation.transformation.Transformation;
 
 import javax.swing.*;
@@ -34,6 +35,14 @@ public class OperationPanel extends JPanel {
 
     public Transformation getTransformation() {
         return transformationPanel.getTransformation();
+    }
+
+    public void setDoProjectionListener(ActionListener doProjectionListener) {
+        this.projectionPanel.setDoItListener(doProjectionListener);
+    }
+
+    public Projection getSelectedProjection() {
+        return projectionPanel.getSelectedProjection();
     }
 
     public void setDoExampleListener(ActionListener doExampleListener) {

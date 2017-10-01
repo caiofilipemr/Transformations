@@ -29,21 +29,21 @@ public class RotationTransformation implements Transformation {
     public void rotateXIfGreaterThenZero(Polyhedron newPolyhedron) {
         if (x > 0) {
             Point originClosest = getOriginClosestPoint(newPolyhedron.getPoints());
-            Transformation.multiplyPoints(newPolyhedron.getPoints(), calculateXMatrix(x, originClosest));
+            MatrixOperation.multiplyColumnPoints(newPolyhedron.getPoints(), calculateXMatrix(x, originClosest));
         }
     }
 
     public void rotateYIfGreaterThenZero(Polyhedron newPolyhedron) {
         if (y > 0) {
             Point originClosest = getOriginClosestPoint(newPolyhedron.getPoints());
-            Transformation.multiplyPoints(newPolyhedron.getPoints(), calculateYMatrix(y, originClosest));
+            MatrixOperation.multiplyColumnPoints(newPolyhedron.getPoints(), calculateYMatrix(y, originClosest));
         }
     }
 
     public void rotateZIfGreaterThenZero(Polyhedron newPolyhedron) {
         if (z > 0) {
             Point originClosest = getOriginClosestPoint(newPolyhedron.getPoints());
-            Transformation.multiplyPoints(newPolyhedron.getPoints(), calculateZMatrix(z, originClosest));
+            MatrixOperation.multiplyColumnPoints(newPolyhedron.getPoints(), calculateZMatrix(z, originClosest));
         }
     }
 

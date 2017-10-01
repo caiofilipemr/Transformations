@@ -1,6 +1,7 @@
 package operation.transformation;
 
 import gc.Polyhedron;
+import math.MatrixOperation;
 
 public class ScaleTransformation implements Transformation {
     private final double sx;
@@ -16,7 +17,7 @@ public class ScaleTransformation implements Transformation {
     @Override
     public Polyhedron transform(Polyhedron polyhedron) {
         Polyhedron newPolyhedron = polyhedron.clone();
-        Transformation.multiplyPoints(newPolyhedron.getPoints(), getScaleMatrix());
+        MatrixOperation.multiplyColumnPoints(newPolyhedron.getPoints(), getScaleMatrix());
         return newPolyhedron;
     }
 

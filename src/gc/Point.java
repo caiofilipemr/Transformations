@@ -40,8 +40,15 @@ public class Point {
         return new double[][] {{x}, {y}, {z}, {1}};
     }
 
+    public double[][] toRowArray() {
+        return new double[][]{{x, y, z, 1}};
+    }
+
     public static Point fromColumnArray(double[][] point) {
         return new Point(point[0][0], point[1][0], point[2][0]);
+    }
+    public static Point fromRowArray(double[][] point) {
+        return new Point(point[0][0], point[0][1], point[0][2]);
     }
 
     public Point clone() {
