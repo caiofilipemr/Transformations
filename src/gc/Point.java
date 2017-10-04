@@ -45,10 +45,13 @@ public class Point {
     }
 
     public static Point fromColumnArray(double[][] point) {
-        return new Point(point[0][0], point[1][0], point[2][0]);
+        Point p = new Point(point[0][0], point[1][0], point[2][0]);
+        return point[3][0] == 1 ? p : p.divide(point[3][0]);
     }
+
     public static Point fromRowArray(double[][] point) {
-        return new Point(point[0][0], point[0][1], point[0][2]);
+        Point p = new Point(point[0][0], point[0][1], point[0][2]);
+        return point[0][3] == 1 ? p : p.divide(point[0][3]);
     }
 
     public Point clone() {
@@ -63,5 +66,9 @@ public class Point {
 
     public double originDistance() {
         return Math.abs(x) + Math.abs(y) + Math.abs(z);
+    }
+
+    public Point neg() {
+        return new Point(-x, -y, -z);
     }
 }
