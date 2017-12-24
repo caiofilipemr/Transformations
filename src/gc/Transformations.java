@@ -11,6 +11,9 @@ import java.awt.event.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static graphics.canvas.PlanPlotter.zoomIn;
+import static graphics.canvas.PlanPlotter.zoomOut;
+
 public class Transformations {
     private static final String FRAME_TITLE = "Transformations";
     private static Canvas canvas;
@@ -58,6 +61,11 @@ public class Transformations {
         operationPanel.setDoTransformationListener(e -> doTransformation());
         operationPanel.setDoProjectionListener(e -> doProjection());
         operationPanel.setDoExampleListener(e -> doExample());
+        operationPanel.setUseNewPolyhedronListener(e -> useNewPolyhedronIfAny());
+        operationPanel.setZoomInListener(e -> zoomIn());
+        operationPanel.setZoomOutListener(e -> zoomOut());
+        operationPanel.setMoveRightListener(e -> moveRight());
+        operationPanel.setMoveLeftListener(e -> moveLeft());
         frame.add(operationPanel, BorderLayout.SOUTH);
     }
 
@@ -147,6 +155,31 @@ public class Transformations {
     private static void doExample() {
         canvas.setPolyhedron(operationPanel.getExamplePolyhedron());
         controlPanel.pointListChanged(canvas.getPolyhedron().points);
+        canvas.updateUI();
+    }
+
+    private static void useNewPolyhedronIfAny() {
+        canvas.useModifiedPolyhedronIfAny();
+        canvas.updateUI();
+    }
+
+    private static void zoomIn() {
+        PlanPlotter.zoomIn();
+        canvas.updateUI();
+    }
+
+    private static void zoomOut() {
+        PlanPlotter.zoomOut();
+        canvas.updateUI();
+    }
+
+    private static void moveRight() {
+        PlanPlotter.moveRight();
+        canvas.updateUI();
+    }
+
+    private static void moveLeft() {
+        PlanPlotter.moveLeft();
         canvas.updateUI();
     }
 

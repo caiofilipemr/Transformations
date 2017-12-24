@@ -1,6 +1,10 @@
 package gc;
 
+import java.text.DecimalFormat;
+
 public class Point {
+    private static final DecimalFormat formatter = new DecimalFormat("##.#");
+
     public double x, y, z;
 
     public Point() {
@@ -15,7 +19,7 @@ public class Point {
 
     @Override
     public String toString() {
-        return "(" + x + ", " + y + ", " + z + ")";
+        return "(" + formatter.format(x) + ", " + formatter.format(y) + ", " + formatter.format(z) + ")";
     }
 
     @Override

@@ -67,4 +67,13 @@ public class Canvas extends JPanel {
     public void setTransition(Transition transition) {
         this.transition = transition;
     }
+
+    public void useModifiedPolyhedronIfAny() {
+        if (!inTransition()) {
+            if (modifiedPolyhedron != null) {
+                polyhedron = modifiedPolyhedron;
+                modifiedPolyhedron = null;
+            }
+        }
+    }
 }

@@ -14,12 +14,14 @@ public class OperationPanel extends JPanel {
     private final TransformationPanel transformationPanel = new TransformationPanel();
     private final ProjectionPanel projectionPanel = new ProjectionPanel();
     private final ExamplePanel examplePanel = new ExamplePanel();
+    private final ExtraPanel extraPanel = new ExtraPanel();
 
     public OperationPanel(int width, int height) {
         setPreferredSize(new Dimension(width, height));
         transformationPanel.setPreferredSize(new Dimension(CHILDREN_WIDTH, getPreferredSize().height - CHILDREN_HEIGHT_PAD));
         projectionPanel.setPreferredSize(new Dimension(CHILDREN_WIDTH, getPreferredSize().height - CHILDREN_HEIGHT_PAD));
         examplePanel.setPreferredSize(new Dimension(CHILDREN_WIDTH, getPreferredSize().height - CHILDREN_HEIGHT_PAD));
+        extraPanel.setPreferredSize(new Dimension(CHILDREN_WIDTH, getPreferredSize().height - CHILDREN_HEIGHT_PAD));
         createComponents();
     }
 
@@ -27,6 +29,11 @@ public class OperationPanel extends JPanel {
         add(transformationPanel);
         add(projectionPanel);
         add(examplePanel);
+        add(extraPanel);
+    }
+
+    private void createExtraPanelComponents() {
+
     }
 
     public void setDoTransformationListener(ActionListener doTransformationListener) {
@@ -53,11 +60,32 @@ public class OperationPanel extends JPanel {
         return examplePanel.getPolyhedron();
     }
 
+    public void setUseNewPolyhedronListener(ActionListener useNewPolyhedronListener) {
+        extraPanel.setUseNewPolyhedronListener(useNewPolyhedronListener);
+    }
+
+    public void setZoomInListener(ActionListener zoomInListener) {
+        extraPanel.setZoomInListener(zoomInListener);
+    }
+
+    public void setZoomOutListener(ActionListener zoomOutListener) {
+        extraPanel.setZoomOutListener(zoomOutListener);
+    }
+
+    public void setMoveRightListener(ActionListener moveRightListener) {
+        extraPanel.setMoveRightListener(moveRightListener);
+    }
+
+    public void setMoveLeftListener(ActionListener moveLeftListener) {
+        extraPanel.setMoveLeftListener(moveLeftListener);
+    }
+
     @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
         transformationPanel.setEnabled(enabled);
         projectionPanel.setEnabled(enabled);
         examplePanel.setEnabled(enabled);
+        extraPanel.setEnabled(enabled);
     }
 }
